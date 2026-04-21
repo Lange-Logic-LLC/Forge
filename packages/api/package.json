@@ -24,7 +24,7 @@
     "stripe": "^14",
     "bcryptjs": "^2",
     "dotenv": "^16",
-    "resend": "^3"
+    "resend": "^6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2",
