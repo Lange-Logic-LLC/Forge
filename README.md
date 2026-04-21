@@ -8,7 +8,7 @@
   <p><strong>Self-hosted build platform for iOS and Android.</strong></p>
   <p>
     Build, sign, and submit mobile apps from your own infrastructure.<br/>
-    EAS-compatible. Multi-tenant. Open source.
+    Self-hosted. Multi-tenant. Open source.
   </p>
 
   <p>
@@ -26,7 +26,7 @@
     <a href="#architecture">Architecture</a> ·
     <a href="#cli">CLI</a> ·
     <a href="#rest-api">API</a> ·
-    <a href="#forge-vs-eas">Forge vs EAS</a> ·
+    <a href="#comparison">Comparison</a> ·
     <a href="#contributing">Contributing</a>
   </p>
 
@@ -38,7 +38,9 @@
 
 ## Overview
 
-**Forge** is an open-source, EAS-compatible build platform you run on your own hardware. A single Mac is enough to get started; add workers horizontally as you scale. Teams get isolated orgs, encrypted credential storage, and one-command submission to the App Store and Google Play — without handing your signing keys to a third-party SaaS.
+**Forge** is an open-source build platform you run on your own hardware. A single Mac is enough to get started; add workers horizontally as you scale. Teams get isolated orgs, encrypted credential storage, and one-command submission to the App Store and Google Play — without handing your signing keys to a third-party SaaS.
+
+Forge reads the same `eas.json` build configuration format used by common managed services, so existing mobile projects can adopt it without rewriting their build config.
 
 It ships with a CLI, a REST API, and a web dashboard — built on Fastify, BullMQ, Supabase, and Next.js.
 
@@ -55,7 +57,7 @@ It ships with a CLI, a REST API, and a web dashboard — built on Fastify, BullM
 - :package: **Automatic submission** to TestFlight, the App Store, and Google Play.
 - :credit_card: **Optional Stripe billing** with usage metering.
 - :shield: **Zero open ports** via Cloudflare Tunnel.
-- :arrows_counterclockwise: **EAS-compatible `eas.json`** — drop-in for projects already using Expo Application Services.
+- :arrows_counterclockwise: **Reads `eas.json`** — uses the common mobile build configuration format, so existing projects can adopt Forge without rewriting their config.
 - :earth_americas: **Deploy anywhere** — runs on your laptop, a single Mac Mini, a fleet, or a mixed Mac + Linux pool.
 
 <br/>
@@ -303,7 +305,7 @@ forge credentials remove <id>
 <details>
 <summary><strong><code>eas.json</code> schema</strong></summary>
 
-Forge reads `eas.json` from your project root, matching the EAS schema:
+Forge reads `eas.json` from your project root, using the same configuration schema as other mobile build services:
 
 ```json
 {
@@ -432,23 +434,25 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 
 <br/>
 
-## Forge vs EAS
+## Comparison
 
-Forge is built to be a drop-in, self-hosted alternative to [EAS Build](https://docs.expo.dev/build/introduction/) — but the tradeoffs are real. Use whichever fits.
+Forge is one of several options for building and submitting mobile apps. It isn't the right fit for every team — the tradeoffs below may help you decide whether self-hosting makes sense for your project.
 
-|  | Forge | EAS Build |
+|  | **Forge** (self-hosted) | Typical managed SaaS |
 | --- | --- | --- |
 | **License** | Apache 2.0, open source | Proprietary, closed source |
-| **Hosting** | Self-hosted on your hardware | Managed SaaS |
-| **Pricing** | Infrastructure cost only | Per-build + subscription |
-| **Build minutes** | Unlimited (your hardware) | Metered / tiered |
-| **iOS runner** | macOS (native Xcode) | macOS (native Xcode) |
-| **Android runner** | Docker on macOS or Linux | Managed Linux |
-| **Credentials** | AES-256-GCM, encrypted at rest | Managed by Expo |
-| **Multi-tenant orgs** | Yes | Yes |
-| **eas.json** | Fully compatible | Native |
-| **Data residency** | Your infrastructure | US-based Expo infra |
-| **Support** | Community + commercial (via Lange Logic) | Expo Support |
+| **Hosting** | Your hardware | Vendor-managed |
+| **Pricing** | Infrastructure cost only | Per-build + subscription tiers |
+| **Build volume** | Bounded by your hardware | Metered / tiered |
+| **iOS runner** | macOS (native Xcode) | Vendor's macOS fleet |
+| **Android runner** | Docker on macOS or Linux | Vendor's Linux fleet |
+| **Credentials** | AES-256-GCM, encrypted at rest on your infra | Held by the vendor |
+| **Multi-tenant orgs** | Yes | Varies by vendor |
+| **Configuration** | Reads `eas.json` | Varies by vendor |
+| **Data residency** | Your infrastructure | Vendor's infrastructure |
+| **Support** | Community + commercial (via Lange Logic) | Vendor's support desk |
+
+See the [Trademarks](#trademarks) section for notes on third-party names referenced in this project.
 
 <br/>
 
@@ -470,7 +474,7 @@ Stripe integration is optional. Without Stripe configured, all orgs default to t
 ## Security
 
 > [!IMPORTANT]
-> Report security vulnerabilities privately to the maintainers rather than filing public GitHub issues. A `SECURITY.md` with a dedicated contact will be added before the `1.0` release.
+> Report security vulnerabilities privately — see [`SECURITY.md`](SECURITY.md) for the disclosure process. Please do not file public GitHub issues for security problems.
 
 - Signing credentials are encrypted with **AES-256-GCM** at rest.
 - Credentials decrypt to ephemeral temp files at build time and are wiped in `finally` blocks.
@@ -540,7 +544,20 @@ Good first issues and help-wanted tasks are tagged in the [issue tracker](https:
 
 - **Bug reports & feature requests** — [GitHub Issues](https://github.com/Lange-Logic-LLC/forge/issues)
 - **Questions & ideas** — [GitHub Discussions](https://github.com/Lange-Logic-LLC/forge/discussions)
+- **Security disclosure** — see [`SECURITY.md`](SECURITY.md)
 - **Commercial support & hosting** — [Lange Logic LLC](https://github.com/Lange-Logic-LLC)
+
+<br/>
+
+## Trademarks
+
+**Forge** is a trademark of Lange Logic LLC.
+
+All other product names, logos, and brands referenced in this repository or its documentation are the property of their respective owners. All company, product, and service names used in this documentation are for identification purposes only. Use of these names, logos, and brands does not imply endorsement.
+
+**Forge is an independent project.** It is not affiliated with, authorized by, endorsed by, or in any way officially connected with Expo, 650 Industries, Inc., or Expo Application Services (EAS). References to `eas.json` and to commercial build services elsewhere in this documentation are descriptive and nominative only — they identify a common configuration file format and category of competing products, and do not represent any affiliation or compatibility claim sanctioned by those parties.
+
+If you are a trademark holder and believe any content in this repository misrepresents your mark, please contact Lange Logic LLC via the [GitHub org page](https://github.com/Lange-Logic-LLC) and we will respond promptly.
 
 <br/>
 
@@ -568,7 +585,6 @@ and limitations under the License.
 
 <div align="center">
   <sub>
-    Built with care by <a href="https://github.com/Lange-Logic-LLC">Lange Logic LLC</a>.<br/>
-    Forge is not affiliated with or endorsed by Expo or Expo Application Services (EAS).
+    Built with care by <a href="https://github.com/Lange-Logic-LLC">Lange Logic LLC</a>.
   </sub>
 </div>
