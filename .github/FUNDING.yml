@@ -1,0 +1,18 @@
+# Funding configuration for the "Sponsor" button on the GitHub repo page.
+# Uncomment and fill in any platforms you want to display.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# github: [Lange-Logic-LLC]                    # Requires GitHub Sponsors enrollment for the org
+# patreon: langelogic                          # Patreon username
+# open_collective: forge                       # Open Collective slug
+# ko_fi: langelogic                            # Ko-fi username
+# tidelift: npm/@forge/cli                     # Tidelift "platform/package"
+# community_bridge: forge                      # Community Bridge slug
+# liberapay: langelogic                        # Liberapay username
+# issuehunt: langelogic                        # IssueHunt username
+# lfx_crowdfunding: forge                      # LFX Crowdfunding project
+# polar: langelogic                            # Polar username
+# buy_me_a_coffee: langelogic                  # Buy Me a Coffee username
+# thanks_dev: u/gh/Lange-Logic-LLC             # thanks.dev identifier
+# custom:                                      # Up to 4 custom URLs
+#   - https://langelogic.com/sponsor

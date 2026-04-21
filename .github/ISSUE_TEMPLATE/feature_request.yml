@@ -1,0 +1,84 @@
+name: Feature Request
+description: Suggest a new feature, enhancement, or improvement for Forge.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement to Forge.
+
+        **Before filing:** please search [existing issues](https://github.com/Lange-Logic-LLC/Forge/issues) and [Discussions](https://github.com/Lange-Logic-LLC/Forge/discussions) to see if this has already been suggested.
+
+        For early-stage ideas or open-ended questions, [Discussions](https://github.com/Lange-Logic-LLC/Forge/discussions) is often a better fit than an issue.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: What problem does this feature solve? What are you trying to accomplish?
+      placeholder: "I'm trying to ... but currently Forge doesn't support ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature or change you'd like to see. Be as specific as you can — API shape, CLI flags, config options, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches have you considered? Why is the proposed solution better?
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of Forge would this feature touch?
+      multiple: true
+      options:
+        - API (packages/api)
+        - Worker — iOS (packages/worker)
+        - Worker — Android (packages/worker)
+        - CLI (packages/cli)
+        - Dashboard (apps/dashboard)
+        - Shared types / schemas (packages/shared)
+        - Supabase migrations
+        - Docker Android builder
+        - Documentation
+        - New area / Unsure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Would this be a breaking change?
+      description: Does this change require existing users to modify their configuration or usage?
+      options:
+        - "No — purely additive"
+        - "Possibly — depends on implementation"
+        - "Yes — would require migration"
+        - "Unsure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Links, mockups, references to similar features in other tools, or anything else that helps explain the idea.
+
+  - type: checkboxes
+    id: willing
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to contribute a pull request for this feature.
+        - label: I have searched existing issues and discussions for duplicates.
+          required: true

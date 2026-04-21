@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and Ideas
+    url: https://github.com/Lange-Logic-LLC/Forge/discussions
+    about: For open-ended questions, design discussions, and early-stage ideas, please use Discussions instead of an issue.
+  - name: Security Vulnerability
+    url: https://github.com/Lange-Logic-LLC/Forge/blob/main/SECURITY.md
+    about: Please do NOT file public issues for security problems. See SECURITY.md for the responsible-disclosure process.
+  - name: Commercial Support
+    url: https://github.com/Lange-Logic-LLC
+    about: For enterprise support, managed hosting, or custom engineering, contact Lange Logic LLC.
