@@ -17,7 +17,7 @@
     "@supabase/ssr": "^0.3",
     "@supabase/supabase-js": "^2",
     "stripe": "^14",
-    "@stripe/react-stripe-js": "^2",
+    "@stripe/react-stripe-js": "^6",
     "@stripe/stripe-js": "^2"
   },
   "devDependencies": {
