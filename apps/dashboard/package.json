@@ -14,7 +14,7 @@
     "next": "^14",
     "react": "^18",
     "react-dom": "^18",
-    "@supabase/ssr": "^0.3",
+    "@supabase/ssr": "^0.10",
     "@supabase/supabase-js": "^2",
     "stripe": "^14",
     "@stripe/react-stripe-js": "^2",
