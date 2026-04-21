@@ -1,51 +1,79 @@
 <div align="center">
+  <a href="https://github.com/Lange-Logic-LLC">
+    <img src="https://avatars.githubusercontent.com/u/254763336?s=200&v=4" alt="Lange Logic LLC" width="120" height="120" style="border-radius: 24px;" />
+  </a>
 
-# Forge
+  <h1>Forge</h1>
 
-**Self-hosted build platform for iOS and Android.**
+  <p><strong>Self-hosted build platform for iOS and Android.</strong></p>
+  <p>
+    Build, sign, and submit mobile apps from your own infrastructure.<br/>
+    EAS-compatible. Multi-tenant. Open source.
+  </p>
 
-Build, sign, and submit mobile apps from your own infrastructure. EAS-compatible, multi-tenant, open source.
+  <p>
+    <a href="LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache%202.0-3178C6.svg?style=flat-square"></a>
+    <a href="https://github.com/Lange-Logic-LLC/forge/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Lange-Logic-LLC/forge?style=flat-square&color=f59e0b"></a>
+    <a href="https://github.com/Lange-Logic-LLC/forge/pulls"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-22c55e.svg?style=flat-square"></a>
+    <img alt="Node" src="https://img.shields.io/badge/Node-20%2B-339933.svg?style=flat-square&logo=node.js&logoColor=white">
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6.svg?style=flat-square&logo=typescript&logoColor=white">
+    <img alt="pnpm" src="https://img.shields.io/badge/pnpm-workspaces-F69220.svg?style=flat-square&logo=pnpm&logoColor=white">
+  </p>
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/Node-20%2B-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![pnpm](https://img.shields.io/badge/pnpm-workspaces-F69220.svg?logo=pnpm&logoColor=white)](https://pnpm.io)
+  <p>
+    <a href="#quick-start"><strong>Quick Start</strong></a> ·
+    <a href="#features">Features</a> ·
+    <a href="#architecture">Architecture</a> ·
+    <a href="#cli">CLI</a> ·
+    <a href="#rest-api">API</a> ·
+    <a href="#forge-vs-eas">Forge vs EAS</a> ·
+    <a href="#contributing">Contributing</a>
+  </p>
 
+  <br/>
 </div>
 
----
+> [!NOTE]
+> Forge is under active development by [Lange Logic LLC](https://github.com/Lange-Logic-LLC). Expect breaking changes before the `1.0` release. Production use is supported, but pin your versions.
 
-Forge is a production-grade build platform for mobile apps. It runs on a single Mac to start and scales horizontally across a fleet of workers. Teams get isolated orgs, signed artifacts, and one-command submission to the App Store and Google Play — without handing credentials to a third-party SaaS.
+## Overview
+
+**Forge** is an open-source, EAS-compatible build platform you run on your own hardware. A single Mac is enough to get started; add workers horizontally as you scale. Teams get isolated orgs, encrypted credential storage, and one-command submission to the App Store and Google Play — without handing your signing keys to a third-party SaaS.
+
+It ships with a CLI, a REST API, and a web dashboard — built on Fastify, BullMQ, Supabase, and Next.js.
+
+<br/>
 
 ## Features
 
-- **iOS builds** run natively on macOS via Xcode.
-- **Android builds** run in isolated Docker containers with `--network=none`.
-- **Multi-tenant** — organizations, roles, invites, and per-org plan limits.
-- **Row-level security** enforced at the database (Supabase Postgres).
-- **Encrypted credentials** — AES-256-GCM at rest, decrypted to ephemeral temp files at build time.
-- **Real-time logs** streamed over Server-Sent Events.
-- **Automatic store submission** to TestFlight, App Store, and Google Play tracks.
-- **Optional Stripe billing** with usage metering.
-- **Zero open ports** via Cloudflare Tunnel.
-- **EAS-compatible `eas.json`** — drop-in for projects already using Expo Application Services.
+- :iphone: **iOS builds** run natively on macOS via Xcode.
+- :robot: **Android builds** run in isolated Docker containers with `--network=none`.
+- :busts_in_silhouette: **Multi-tenant** — organizations, role-based access, invites, per-org plan limits.
+- :lock: **Row-level security** enforced at the database layer (Supabase Postgres).
+- :key: **AES-256-GCM** encrypted credential storage with ephemeral decryption at build time.
+- :satellite: **Real-time log streaming** over Server-Sent Events.
+- :package: **Automatic submission** to TestFlight, the App Store, and Google Play.
+- :credit_card: **Optional Stripe billing** with usage metering.
+- :shield: **Zero open ports** via Cloudflare Tunnel.
+- :arrows_counterclockwise: **EAS-compatible `eas.json`** — drop-in for projects already using Expo Application Services.
+- :earth_americas: **Deploy anywhere** — runs on your laptop, a single Mac Mini, a fleet, or a mixed Mac + Linux pool.
 
-## Table of Contents
+<br/>
 
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
-- [CLI](#cli)
-- [REST API](#rest-api)
-- [Plan Tiers](#plan-tiers)
-- [Cloudflare Tunnel](#cloudflare-tunnel)
-- [Android Docker Builder](#android-docker-builder)
-- [Security](#security)
-- [Scaling](#scaling)
-- [Contributing](#contributing)
-- [License](#license)
+## Quick Start
+
+> **Prerequisites:** macOS (Apple Silicon or Intel), Xcode, Docker Desktop, and a free [Supabase](https://supabase.com) project.
+
+```bash
+git clone https://github.com/Lange-Logic-LLC/forge.git
+cd forge
+bash scripts/setup.sh
+bash scripts/dev.sh
+```
+
+The setup script installs Homebrew, Node.js, pnpm, Redis, `cloudflared`, and the Supabase CLI; installs project dependencies; and generates `.env` files with a fresh AES-256 encryption key. See the [full setup guide](#full-setup) below for Supabase configuration and admin promotion.
+
+<br/>
 
 ## Architecture
 
@@ -78,7 +106,7 @@ CLI · REST API · Dashboard
   └── Realtime (live logs)
 ```
 
-## Tech Stack
+### Tech Stack
 
 | Component | Technology |
 | --- | --- |
@@ -95,37 +123,30 @@ CLI · REST API · Dashboard
 | Billing | Stripe (subscriptions + usage metering) |
 | Monorepo | pnpm workspaces + Turborepo |
 
-## Project Structure
+### Project Structure
 
 ```
 forge/
 ├── packages/
-│   ├── api/            Fastify API server
-│   ├── worker/         iOS + Android build and submit workers
-│   ├── cli/            forge CLI (npm-publishable)
-│   └── shared/         Types, Zod schemas, crypto, plan constants
+│   ├── api/              Fastify API server
+│   ├── worker/           iOS + Android build and submit workers
+│   ├── cli/              forge CLI (npm-publishable)
+│   └── shared/           Types, Zod schemas, crypto, plan constants
 ├── apps/
-│   └── dashboard/      Next.js user and admin dashboard
+│   └── dashboard/        Next.js user and admin dashboard
 ├── supabase/
-│   └── migrations/     Full SQL schema with RLS policies
+│   └── migrations/       Full SQL schema with RLS policies
 ├── docker/
 │   └── android-builder/  Android SDK Docker image
 └── scripts/
-    ├── setup.sh        One-command Mac setup
-    ├── dev.sh          Start all services locally
-    └── rotate-key.sh   Credential encryption key rotation
+    ├── setup.sh          One-command Mac setup
+    ├── dev.sh            Start all services locally
+    └── rotate-key.sh     Credential encryption key rotation
 ```
 
-## Prerequisites
+<br/>
 
-- **macOS** (Apple Silicon or Intel)
-- **Xcode** — install from the Mac App Store (required for iOS builds)
-- **Docker Desktop** — [download](https://www.docker.com/products/docker-desktop/) (required for Android builds)
-- A free **Supabase** project — [supabase.com](https://supabase.com)
-
-The setup script installs everything else.
-
-## Quick Start
+## Full Setup
 
 ### 1. Clone and run setup
 
@@ -134,8 +155,6 @@ git clone https://github.com/Lange-Logic-LLC/forge.git
 cd forge
 bash scripts/setup.sh
 ```
-
-The setup script installs Homebrew (if missing), Node.js, pnpm, Redis, `cloudflared`, and the Supabase CLI; installs project dependencies; and generates `.env` files with a fresh AES-256 encryption key.
 
 ### 2. Create a Supabase project
 
@@ -148,13 +167,13 @@ The setup script installs Homebrew (if missing), Node.js, pnpm, Redis, `cloudfla
 
 Fill in your Supabase credentials:
 
-| File | Required Keys |
+| File | Required keys |
 | --- | --- |
 | `packages/api/.env` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` |
 | `packages/worker/.env` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` |
 | `apps/dashboard/.env.local` | `SUPABASE_URL`, `SUPABASE_ANON_KEY` |
 
-Stripe and email (Resend) settings are optional — Forge runs without them.
+Stripe and Resend are optional — Forge runs without them.
 
 ### 4. Start the platform
 
@@ -169,15 +188,18 @@ pnpm dev:dashboard               # http://localhost:3001
 
 ### 5. Promote yourself to admin
 
-Sign up through the dashboard at `http://localhost:3001`, then run the following in the Supabase SQL editor:
+Sign up via the dashboard, then run in the Supabase SQL editor:
 
 ```sql
 update profiles set is_admin = true where email = 'your@email.com';
 ```
 
+<br/>
+
 ## CLI
 
-### Install
+<details>
+<summary><strong>Install</strong></summary>
 
 ```bash
 # From the monorepo (development)
@@ -189,7 +211,10 @@ cd packages/cli && npm link
 forge <command>
 ```
 
-### Authentication
+</details>
+
+<details>
+<summary><strong>Authentication</strong></summary>
 
 ```bash
 forge login                                    # Enter API token from dashboard
@@ -198,7 +223,10 @@ forge whoami                                   # Show user, org, plan, usage
 forge logout
 ```
 
-### Organizations
+</details>
+
+<details>
+<summary><strong>Organizations</strong></summary>
 
 ```bash
 forge org:create                               # Interactive — name + slug
@@ -209,7 +237,10 @@ forge org:invite user@example.com              # Invite member
 forge org:invite user@example.com --role admin
 ```
 
-### Builds
+</details>
+
+<details>
+<summary><strong>Builds</strong></summary>
 
 ```bash
 forge build --platform ios                     # Build iOS
@@ -227,7 +258,10 @@ forge build:download <build-id>
 forge build:cancel <build-id>
 ```
 
-### Submissions
+</details>
+
+<details>
+<summary><strong>Submissions</strong></summary>
 
 ```bash
 forge submit --platform ios --latest
@@ -241,7 +275,10 @@ forge submit:list
 forge submit:view <submission-id>
 ```
 
-### Credentials
+</details>
+
+<details>
+<summary><strong>Credentials</strong></summary>
 
 ```bash
 forge credentials add                          # Interactive wizard
@@ -253,17 +290,18 @@ forge credentials list
 forge credentials remove <id>
 ```
 
-Supported credential types:
-
 | Type | Description |
 | --- | --- |
 | `ios-distribution` | `.p12` certificate + `.mobileprovision` |
-| `ios-asc-api-key` | App Store Connect API key (`.p8`) — required for submissions |
+| `ios-asc-api-key` | App Store Connect API key (`.p8`) — required for iOS submissions |
 | `ios-apns` | Push notification key (`.p8`) |
 | `android-keystore` | Upload keystore (`.jks`) |
-| `android-service-account` | Google Play service account (`.json`) — required for submissions |
+| `android-service-account` | Google Play service account (`.json`) — required for Android submissions |
 
-### `eas.json`
+</details>
+
+<details>
+<summary><strong><code>eas.json</code> schema</strong></summary>
 
 Forge reads `eas.json` from your project root, matching the EAS schema:
 
@@ -299,11 +337,16 @@ Forge reads `eas.json` from your project root, matching the EAS schema:
 }
 ```
 
+</details>
+
+<br/>
+
 ## REST API
 
 All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API key).
 
-### Auth
+<details>
+<summary><strong>Auth</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -311,7 +354,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `GET` | `/auth/tokens` | List your API keys |
 | `DELETE` | `/auth/tokens/:id` | Revoke an API key |
 
-### Organizations
+</details>
+
+<details>
+<summary><strong>Organizations</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -323,7 +369,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `POST` | `/orgs/:slug/invites` | Invite user |
 | `DELETE` | `/orgs/:slug/members/:userId` | Remove member |
 
-### Builds
+</details>
+
+<details>
+<summary><strong>Builds</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -333,7 +382,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `DELETE` | `/orgs/:slug/builds/:id` | Cancel build |
 | `GET` | `/orgs/:slug/builds/:id/logs` | Stream logs (SSE) |
 
-### Submissions
+</details>
+
+<details>
+<summary><strong>Submissions</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -342,7 +394,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `GET` | `/orgs/:slug/submissions/:id` | Get submission details |
 | `DELETE` | `/orgs/:slug/submissions/:id` | Cancel submission |
 
-### Credentials
+</details>
+
+<details>
+<summary><strong>Credentials</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -350,7 +405,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `GET` | `/orgs/:slug/credentials` | List credentials |
 | `DELETE` | `/orgs/:slug/credentials/:id` | Delete credential |
 
-### Webhooks
+</details>
+
+<details>
+<summary><strong>Webhooks</strong></summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -358,7 +416,10 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `GET` | `/orgs/:slug/webhooks` | List webhooks |
 | `DELETE` | `/orgs/:slug/webhooks/:id` | Delete webhook |
 
-### Admin (requires `is_admin = true`)
+</details>
+
+<details>
+<summary><strong>Admin</strong> (requires <code>is_admin = true</code>)</summary>
 
 | Method | Path | Description |
 | --- | --- | --- |
@@ -367,9 +428,33 @@ All endpoints require `Authorization: Bearer <token>` (Supabase JWT or Forge API
 | `GET` | `/admin/workers` | Worker pool status |
 | `PATCH` | `/admin/orgs/:slug/plan` | Override an organization's plan |
 
+</details>
+
+<br/>
+
+## Forge vs EAS
+
+Forge is built to be a drop-in, self-hosted alternative to [EAS Build](https://docs.expo.dev/build/introduction/) — but the tradeoffs are real. Use whichever fits.
+
+|  | Forge | EAS Build |
+| --- | --- | --- |
+| **License** | Apache 2.0, open source | Proprietary, closed source |
+| **Hosting** | Self-hosted on your hardware | Managed SaaS |
+| **Pricing** | Infrastructure cost only | Per-build + subscription |
+| **Build minutes** | Unlimited (your hardware) | Metered / tiered |
+| **iOS runner** | macOS (native Xcode) | macOS (native Xcode) |
+| **Android runner** | Docker on macOS or Linux | Managed Linux |
+| **Credentials** | AES-256-GCM, encrypted at rest | Managed by Expo |
+| **Multi-tenant orgs** | Yes | Yes |
+| **eas.json** | Fully compatible | Native |
+| **Data residency** | Your infrastructure | US-based Expo infra |
+| **Support** | Community + commercial (via Lange Logic) | Expo Support |
+
+<br/>
+
 ## Plan Tiers
 
-Plan enforcement is built in. Default tiers are defined in `packages/shared/src/plans.ts` and can be customized by operators:
+Plan enforcement is built in. The default tiers live in `packages/shared/src/plans.ts` and can be customized by operators:
 
 | Plan | Builds / month | Concurrent | Artifact TTL |
 | --- | --- | --- | --- |
@@ -378,7 +463,30 @@ Plan enforcement is built in. Default tiers are defined in `packages/shared/src/
 | Team | 1,000 | 10 | 90 days |
 | Enterprise | Unlimited | Custom | Custom |
 
-Stripe integration is optional. Without Stripe configured, all orgs default to the Starter tier and no billing is enforced.
+Stripe integration is optional. Without Stripe configured, all orgs default to the Starter tier with no billing enforcement.
+
+<br/>
+
+## Security
+
+> [!IMPORTANT]
+> Report security vulnerabilities privately to the maintainers rather than filing public GitHub issues. A `SECURITY.md` with a dedicated contact will be added before the `1.0` release.
+
+- Signing credentials are encrypted with **AES-256-GCM** at rest.
+- Credentials decrypt to ephemeral temp files at build time and are wiped in `finally` blocks.
+- Android builds run in Docker with `--network=none` — no outbound internet access.
+- Supabase **Row Level Security** enforces tenant isolation at the database layer.
+- API keys are **bcrypt-hashed** before storage.
+- Cloudflare Tunnel means no ports are open on the host.
+- Webhook payloads are signed with **HMAC-SHA256**.
+
+Rotate the encryption key periodically:
+
+```bash
+bash scripts/rotate-key.sh
+```
+
+<br/>
 
 ## Cloudflare Tunnel
 
@@ -391,7 +499,7 @@ cloudflared tunnel route dns forge api.yourdomain.com
 cloudflared tunnel route dns forge app.yourdomain.com
 ```
 
-Copy `scripts/cloudflare-config.example.yml` to `~/.cloudflared/config.yml`, set your tunnel ID, and run:
+Copy `scripts/cloudflare-config.example.yml` to `~/.cloudflared/config.yml`, set your tunnel ID, then run:
 
 ```bash
 cloudflared tunnel run forge
@@ -400,57 +508,45 @@ cloudflared tunnel run forge
 sudo cloudflared service install
 ```
 
-## Android Docker Builder
-
-The Android worker executes Gradle inside a Docker container with `--network=none` for build isolation.
-
-```bash
-docker build -t forge/android-builder:latest docker/android-builder/
-```
-
-The setup script builds the image automatically when Docker is running.
-
-## Security
-
-- Signing credentials are encrypted with **AES-256-GCM** at rest.
-- Credentials are decrypted to ephemeral temp files at build time and wiped in `finally` blocks.
-- Android builds run in Docker with `--network=none` (no internet access).
-- Supabase **Row Level Security** enforces tenant isolation at the database layer.
-- API keys are **bcrypt-hashed** before storage.
-- Cloudflare Tunnel means no ports are open on the host.
-- Webhook payloads are signed with **HMAC-SHA256**.
-
-Rotate the encryption key periodically:
-
-```bash
-bash scripts/rotate-key.sh
-```
-
-Security issues should be reported privately to the maintainers rather than filed as public GitHub issues.
+<br/>
 
 ## Scaling
 
-Forge is designed to grow with you:
+Forge is designed to grow with you.
 
 1. **Add more Mac workers** for iOS — point them at the same Redis and Supabase.
-2. **Add Linux VPS nodes** for Android — the worker code deploys unchanged, only the `.env` differs.
+2. **Add Linux VPS nodes** for Android — the worker code deploys unchanged; only the `.env` differs.
 3. **Move Redis** to a managed instance (Upstash, Railway, or self-hosted).
 4. **Upgrade Supabase** to Pro for production workloads.
 
 No application code changes are required to scale — only `REDIS_URL` and `SUPABASE_URL` in the worker `.env`.
 
+<br/>
+
 ## Contributing
 
-Contributions are welcome. Please:
+Contributions are welcome. Before opening a PR:
 
-1. Open an issue to discuss substantial changes before starting work.
-2. Follow the existing code style (TypeScript strict mode, Prettier defaults).
-3. Include tests for new behavior where practical.
+1. **Open an issue** to discuss substantial changes before starting work.
+2. **Follow the existing code style** — TypeScript strict mode, Prettier defaults.
+3. **Include tests** for new behavior where practical.
 4. By submitting a pull request, you agree to license your contribution under the [Apache License 2.0](LICENSE).
+
+Good first issues and help-wanted tasks are tagged in the [issue tracker](https://github.com/Lange-Logic-LLC/forge/issues).
+
+<br/>
+
+## Community & Support
+
+- **Bug reports & feature requests** — [GitHub Issues](https://github.com/Lange-Logic-LLC/forge/issues)
+- **Questions & ideas** — [GitHub Discussions](https://github.com/Lange-Logic-LLC/forge/discussions)
+- **Commercial support & hosting** — [Lange Logic LLC](https://github.com/Lange-Logic-LLC)
+
+<br/>
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](LICENSE).
+Forge is licensed under the [Apache License, Version 2.0](LICENSE).
 
 ```
 Copyright 2026 Lange Logic LLC
@@ -460,4 +556,19 @@ you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing permissions
+and limitations under the License.
 ```
+
+<br/>
+
+<div align="center">
+  <sub>
+    Built with care by <a href="https://github.com/Lange-Logic-LLC">Lange Logic LLC</a>.<br/>
+    Forge is not affiliated with or endorsed by Expo or Expo Application Services (EAS).
+  </sub>
+</div>
