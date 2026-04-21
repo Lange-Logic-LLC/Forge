@@ -18,7 +18,7 @@
     "@supabase/supabase-js": "^2",
     "stripe": "^14",
     "@stripe/react-stripe-js": "^2",
-    "@stripe/stripe-js": "^2"
+    "@stripe/stripe-js": "^9"
   },
   "devDependencies": {
     "@types/node": "^20",
