@@ -1,0 +1,28 @@
+{
+  "name": "@forge/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@forge/shared": "workspace:*",
+    "@supabase/supabase-js": "^2",
+    "bullmq": "^5",
+    "ioredis": "^5",
+    "simple-git": "^3",
+    "archiver": "^6",
+    "googleapis": "^140",
+    "dotenv": "^16"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4",
+    "typescript": "^5.5"
+  }
+}

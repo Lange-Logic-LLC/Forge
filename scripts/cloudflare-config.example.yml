@@ -1,0 +1,22 @@
+# Cloudflare Tunnel Config
+# Copy to ~/.cloudflared/config.yml after running:
+#   cloudflared tunnel login
+#   cloudflared tunnel create forge
+
+tunnel: YOUR_TUNNEL_ID
+credentials-file: /Users/YOU/.cloudflared/YOUR_TUNNEL_ID.json
+
+ingress:
+  - hostname: api.yourdomain.com
+    service: http://localhost:3000
+  - hostname: app.yourdomain.com
+    service: http://localhost:3001
+  - service: http_status:404
+
+# After configuring:
+#   cloudflared tunnel route dns forge api.yourdomain.com
+#   cloudflared tunnel route dns forge app.yourdomain.com
+#   cloudflared tunnel run forge
+#
+# Or install as a service:
+#   sudo cloudflared service install

@@ -1,0 +1,30 @@
+{
+  "name": "@forge/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "forge": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@forge/shared": "workspace:*",
+    "commander": "^12",
+    "chalk": "^5",
+    "ora": "^8",
+    "inquirer": "^9",
+    "axios": "^1",
+    "archiver": "^6",
+    "eventsource": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/archiver": "^6",
+    "@types/eventsource": "^1",
+    "tsx": "^4",
+    "typescript": "^5.5"
+  }
+}

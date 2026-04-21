@@ -1,0 +1,22 @@
+{
+  "name": "forge",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "dev:api": "turbo dev --filter=@forge/api",
+    "dev:worker": "turbo dev --filter=@forge/worker",
+    "dev:dashboard": "turbo dev --filter=@forge/dashboard",
+    "build:cli": "turbo build --filter=@forge/cli",
+    "db:migrate": "supabase db push",
+    "db:reset": "supabase db reset",
+    "setup": "bash scripts/setup.sh"
+  },
+  "devDependencies": {
+    "turbo": "^2",
+    "typescript": "^5.5"
+  }
+}
