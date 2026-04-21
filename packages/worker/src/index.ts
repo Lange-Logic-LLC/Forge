@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Worker } from 'bullmq';
-import Redis from 'ioredis';
+import { Redis } from 'ioredis';
 import { createClient } from '@supabase/supabase-js';
 import { buildIos } from './ios/build.js';
 import { buildAndroid } from './android/build.js';

@@ -1,0 +1,9 @@
+node_modules
+dist
+.next
+.turbo
+.supabase
+tmp
+pnpm-lock.yaml
+*.log
+.DS_Store

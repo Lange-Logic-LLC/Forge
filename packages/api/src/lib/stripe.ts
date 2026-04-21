@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { PLANS, type PlanName } from '@forge/shared';
 
 export const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' })
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
   : null;
 
 export function getPlanFromPriceId(priceId: string): PlanName {

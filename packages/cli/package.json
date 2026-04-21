@@ -1,10 +1,38 @@
 {
   "name": "@forge/cli",
   "version": "0.1.0",
+  "description": "Command-line interface for Forge — a self-hosted build platform for iOS and Android.",
+  "license": "Apache-2.0",
+  "author": "Lange Logic LLC",
+  "homepage": "https://github.com/Lange-Logic-LLC/Forge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lange-Logic-LLC/Forge.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/Lange-Logic-LLC/Forge/issues"
+  },
+  "keywords": [
+    "forge",
+    "ios",
+    "android",
+    "mobile",
+    "build",
+    "ci-cd",
+    "self-hosted",
+    "eas",
+    "xcode",
+    "gradle",
+    "react-native"
+  ],
   "type": "module",
   "bin": {
     "forge": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
@@ -12,18 +40,19 @@
   },
   "dependencies": {
     "@forge/shared": "workspace:*",
-    "commander": "^12",
-    "chalk": "^5",
-    "ora": "^8",
-    "inquirer": "^9",
-    "axios": "^1",
     "archiver": "^6",
-    "eventsource": "^2"
+    "axios": "^1",
+    "chalk": "^5",
+    "commander": "^12",
+    "eventsource": "^2",
+    "inquirer": "^9",
+    "ora": "^8"
   },
   "devDependencies": {
-    "@types/node": "^20",
     "@types/archiver": "^6",
     "@types/eventsource": "^1",
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^20",
     "tsx": "^4",
     "typescript": "^5.5"
   }

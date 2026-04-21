@@ -1,11 +1,21 @@
 {
   "name": "forge",
   "private": true,
+  "description": "Self-hosted, multi-tenant build platform for iOS and Android.",
+  "license": "Apache-2.0",
+  "author": "Lange Logic LLC",
+  "homepage": "https://github.com/Lange-Logic-LLC/Forge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lange-Logic-LLC/Forge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lange-Logic-LLC/Forge/issues"
+  },
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint",
     "clean": "turbo clean",
     "dev:api": "turbo dev --filter=@forge/api",
     "dev:worker": "turbo dev --filter=@forge/worker",
@@ -13,9 +23,12 @@
     "build:cli": "turbo build --filter=@forge/cli",
     "db:migrate": "supabase db push",
     "db:reset": "supabase db reset",
-    "setup": "bash scripts/setup.sh"
+    "setup": "bash scripts/setup.sh",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "prettier": "^3.2",
     "turbo": "^2",
     "typescript": "^5.5"
   }

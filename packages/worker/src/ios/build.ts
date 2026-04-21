@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type Redis from 'ioredis';
+import type { Redis } from 'ioredis';
 import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';

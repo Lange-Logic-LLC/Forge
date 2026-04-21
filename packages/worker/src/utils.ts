@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type Redis from 'ioredis';
+import type { Redis } from 'ioredis';
 import { exec as execCb, type ChildProcess } from 'child_process';
 import { promisify } from 'util';
 import { createReadStream } from 'fs';
