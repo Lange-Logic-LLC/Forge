@@ -11,7 +11,7 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "next": "^14",
+    "next": "^15",
     "react": "^18",
     "react-dom": "^18",
     "@supabase/ssr": "^0.3",
